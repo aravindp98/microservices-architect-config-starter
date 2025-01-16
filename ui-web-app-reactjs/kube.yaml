@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui_webapp
+  labels:
+    app: ui_webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui_webapp
+  template:
+    metadata:
+      name: ui_webapp
+      labels:
+        app: ui_webapp
+    spec:
+      containers:
+        - name: ui_webapp
+          image: aravindepic/ui_webapp:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: ui_port
+              containerPort: 8080
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui_webapp
+spec:
+  selector:
+    app: ui_webapp
+  ports:
+     - name: ui_port
+       port: 8080
+       targetPort: ui_port
+  type: NodePort
+    
+
+      
